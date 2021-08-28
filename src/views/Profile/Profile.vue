@@ -5,7 +5,7 @@
         <div></div>
         <!-- End View -->
         <!-- Edit -->
-        <div v-if="showEdit" class="h-screen overflow-y-scroll m-5 pb-40" :class="darkMode?`text-gray-300`:``">
+        <div v-if="!showEdit" class="h-screen overflow-y-scroll m-5 pb-40" :class="darkMode?`text-gray-300`:``">
            <div class="flex items-center ">
                <div class="w-20 h-20 rounded-full bg-primary bg-cover" :style="{backgroundImage:`url(${stProfile.photo})`}"></div>
                <div class="font-semibold ml-10">
@@ -310,9 +310,11 @@
                 formData.append("image", e.target.files[0]);
 
                 this.changeProfilePhotoPhoto(formData).then(response => {
-                    this.stProfile.photo = response.data.photo
-                    this.getStudentProfile(this.stProfile)
-                    localStorage.setItem('stProfile', JSON.stringify(this.stProfile))
+                   if(response.data.msg == undefined){
+                        this.stProfile.photo = response.data.photo
+                        this.getStudentProfile(this.stProfile)
+                        localStorage.setItem('stProfile', JSON.stringify(this.stProfile))
+                   }
                 }).catch(() => {})
             }
         },

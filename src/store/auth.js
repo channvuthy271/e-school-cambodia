@@ -284,13 +284,11 @@ export default {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(response => {
-
-                    if (response.data.status && response.data.status === 2) {
-                        err.err(response.data.msg)
+                    commit('changingProfile', false)
+                    if (response.data.msg != undefined) {
+                        helper.errorMessage(response.data.msg)
                         return
                     }
-
-                    commit('changingProfile', false)
                     resolve(response.data)
                 }).catch(err => {
                     commit('changingProfile', false)
