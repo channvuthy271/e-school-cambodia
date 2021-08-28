@@ -65,7 +65,11 @@ export default {
             return new Promise((resolve, reject) => {
                 axios.get(config.apiUrl + `home?${qs}`).then(response => {
                     commit("homeLoading", false)
-                    commit("receiveList", response.data.data)
+                    if(response.data.msg != undefined){
+                        helper.errorMessage(response.data.msg)
+                    }else{
+                        commit("receiveList", response.data.data)
+                    }
                     resolve(response)
                 }).catch(err => {
                     commit("homeLoading", false)

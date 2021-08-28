@@ -1,5 +1,6 @@
 import axios from "axios"
 import config from "./../config"
+import helper from "../helper/helper"
 export default {
     namespaced: true,
     state: {
@@ -53,7 +54,11 @@ export default {
                 axios.get(config.apiUrl + "partner").then(response => {
                     resolve(response.data)
                     commit("loadingPartner", false)
-                    commit("gettingPartner", response.data.data)
+                    if(response.data.msg != undefined){
+                        helper.errorMessage(response.data.msg)
+                    }else{
+                        commit("gettingPartner", response.data.data)
+                    }
 
                 }).catch(err => {
                     reject(err)
